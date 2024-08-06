@@ -1,6 +1,4 @@
 extends Control
-
-
 #see https://ai.google.dev/tutorials/rest_quickstart
 
 var api_key = ""
@@ -14,25 +12,48 @@ func _ready():
 	add_child(http_request)
 	http_request.connect("request_completed", _on_request_completed)
 
-	var  option_keys = ["SexuallyExplicit","HateSpeech","Harassment","DangerousContent"]
-	for key in option_keys:
-		var option = find_child(key+"OptionButton")
-		option.add_item("BLOCK_NONE")
-		option.add_item("HARM_BLOCK_THRESHOLD_UNSPECIFIED")
-		option.add_item("BLOCK_LOW_AND_ABOVE")
-		option.add_item("BLOCK_MEDIUM_AND_ABOVE")
-		option.add_item("BLOCK_ONLY_HIGH")
+	#var  option_keys = ["SexuallyExplicit","HateSpeech","Harassment","DangerousContent"]
+	#for key in option_keys:
+		#var option = find_child(key+"OptionButton")
+		#option.add_item("BLOCK_NONE")
+		#option.add_item("HARM_BLOCK_THRESHOLD_UNSPECIFIED")
+		#option.add_item("BLOCK_LOW_AND_ABOVE")
+		#option.add_item("BLOCK_MEDIUM_AND_ABOVE")
+		#option.add_item("BLOCK_ONLY_HIGH")
 		
 	#conversations.append({"user":"I am aki","model":"Hello aki"})
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-func _get_option_selected_text(key):
-	var option = find_child(key+"OptionButton")
-	var text = option.get_item_text(option.get_selected_id())
-	return  text
-
+#func _get_option_selected_text(key):
+	#var option = find_child(key+"OptionButton")
+	#var text = option.get_item_text(option.get_selected_id())
+	#return  text
+#
+#func read_settings_file():
+	#var file_path = "res://settings.json"
+	#var file = FileAccess.open(file_path, FileAccess.READ)
+#
+	#if file == null:
+		#print("Erro ao abrir o arquivo: ", file_path)
+		#get_tree().change_scene_to_file("res://main.tscn")
+		#
+	#var content = ""
+	#while not file.eof_reached():
+		#content += file.get_line()
+	#file.close()
+	#
+	#var settings = {}
+	#content = JSON.parse_string(content)
+	#print(content)
+	#if !content:
+		#print("Erro ao analisar JSON")
+		#get_tree().change_scene_to_file("res://main.tscn")
+	#
+	#settings = content
+	#return settings
+	
 func _on_send_button_pressed():
 	find_child("SendButton").disabled = true
 	var input = find_child("InputEdit").text
@@ -62,19 +83,19 @@ func _request_chat(prompt):
 		"safety_settings":[
 			{
 			"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-			"threshold": _get_option_selected_text("SexuallyExplicit"),
+			"threshold": "BLOCK_ONLY_HIGH",
 			},
 			{
 			"category": "HARM_CATEGORY_HATE_SPEECH",
-			"threshold": _get_option_selected_text("HateSpeech"),
+			"threshold": "BLOCK_ONLY_HIGH",
 			},
 			{
 			"category": "HARM_CATEGORY_HARASSMENT",
-			"threshold": _get_option_selected_text("Harassment"),
+			"threshold": "BLOCK_ONLY_HIGH",
 			},
 			{
 			"category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-			"threshold": _get_option_selected_text("DangerousContent"),
+			"threshold": "BLOCK_ONLY_HIGH",
 			},
 			]
 	})

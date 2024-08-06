@@ -3,18 +3,19 @@ extends Control
 var settings_path = "res://settings.json"
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var container = find_child("GridContainer")
-	var names = ["send_text","send_text_safety","send_text_config","send_text_stream","chat_text","chat_text1_5","send_image","get_embedding","batch_embedding","count_tokens","get_list_model","code_execution"]
-	for node_name in names:
-		var button = Button.new()
-		button.text = node_name
-		button.connect("pressed", Callable(self, "_on_button_pressed").bind(button))
-		container.add_child(button)
-		
 	_update_ui()
+	var button : Button = find_child("EnterChatButton")
+	#var names = ["chat_text1_5"]
+	#for node_name in names:
+		#var button = Button.new()
+		#button.text = node_name
+	button.connect("pressed", Callable(self, "_on_button_pressed").bind(button))
+		#container.add_child(button)
+		
+
 
 func _on_button_pressed(button):
-	var scene_path = "res://"+button.text+".tscn"
+	var scene_path = "res://chat_text.tscn"
 	get_tree().change_scene_to_file(scene_path)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
