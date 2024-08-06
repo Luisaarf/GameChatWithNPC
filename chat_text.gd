@@ -7,6 +7,8 @@ var conversations = []
 var last_user_prompt
 func _ready():
 	var settings = JSON.parse_string(FileAccess.get_file_as_string("res://settings.json"))
+	if not settings:
+		get_tree().change_scene("res://main.tsn")
 	api_key = settings.api_key
 	http_request = HTTPRequest.new()
 	add_child(http_request)
@@ -105,6 +107,7 @@ func _request_chat(prompt):
 	
 	if error != OK:
 		push_error("requested but error happen code = %s"%error)
+		get_tree().change_scene("res://main.tsn")
 
 func _set_label_text(key,text):
 	var label = find_child(key)
