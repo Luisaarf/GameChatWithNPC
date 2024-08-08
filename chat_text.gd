@@ -111,17 +111,6 @@ func _set_label_text(key,text):
 	else:
 		label.get_label_settings().set_font_color(Color(1,1,1,1))
 	label.text = text
-
-func _add_to_history():
-	historyBox.text += "User: " + history.user + "\n"
-	historyBox.text += "Model: " +history.model + "\n"
-	historyBox.text += "\n"
-	# history.text = ""
-	# for conversation in conversations:
-	# 	history.text += conversation["user"] + "\n"
-	# 	history.text += conversation["model"] + "\n"
-	# 	history.text += "\n"
-
 	
 func _on_request_completed(result, responseCode, headers, body):
 	find_child("SendButton").disabled = false
@@ -184,3 +173,7 @@ func _on_request_completed(result, responseCode, headers, body):
 		history = {"user":"%s"%last_user_prompt,"model":"%s"%newStr}
 		_add_to_history()
 	
+func _add_to_history():
+	historyBox.text += "User: " + history.user + "\n"
+	historyBox.text += "Model: " +history.model + "\n"
+	historyBox.text += "\n"
