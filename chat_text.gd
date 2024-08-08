@@ -4,7 +4,10 @@ extends Control
 var api_key = ""
 var http_request
 var conversations = []
+var history = []
+var historyBox : TextEdit
 var last_user_prompt
+var model = "v1beta/models/gemini-1.5-pro-latest"
 func _ready():
 	var settings = JSON.parse_string(FileAccess.get_file_as_string("res://settings.json"))
 	if not settings:
@@ -13,17 +16,8 @@ func _ready():
 	http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.connect("request_completed", _on_request_completed)
+	historyBox = find_child("HistText")
 
-	#var  option_keys = ["SexuallyExplicit","HateSpeech","Harassment","DangerousContent"]
-	#for key in option_keys:
-		#var option = find_child(key+"OptionButton")
-		#option.add_item("BLOCK_NONE")
-		#option.add_item("HARM_BLOCK_THRESHOLD_UNSPECIFIED")
-		#option.add_item("BLOCK_LOW_AND_ABOVE")
-		#option.add_item("BLOCK_MEDIUM_AND_ABOVE")
-		#option.add_item("BLOCK_ONLY_HIGH")
-		
-	#conversations.append({"user":"I am aki","model":"Hello aki"})
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
@@ -62,7 +56,8 @@ func _on_send_button_pressed():
 	_request_chat(input)
 
 func _request_chat(prompt):
-	var url = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=%s"%api_key
+	# var url = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=%s"%api_key
+	var url = "https://generativelanguage.googleapis.com/%s:generateContent?key=%s"%[model,api_key]
 	
 	var contents_value = []
 	for conversation in conversations:
@@ -79,7 +74,7 @@ func _request_chat(prompt):
 			"role":"user",
 			"parts":[{"text":prompt}]
 		})
-	var body = JSON.new().stringify({
+	var body = JSON.stringify({
 		"contents":contents_value
 		,# basically useless,just they say 'I cant talk about that.'
 		"safety_settings":[
@@ -116,6 +111,18 @@ func _set_label_text(key,text):
 	else:
 		label.get_label_settings().set_font_color(Color(1,1,1,1))
 	label.text = text
+
+func _add_to_history():
+	historyBox.text += "User: " + history.user + "\n"
+	historyBox.text += "Model: " +history.model + "\n"
+	historyBox.text += "\n"
+	# history.text = ""
+	# for conversation in conversations:
+	# 	history.text += conversation["user"] + "\n"
+	# 	history.text += conversation["model"] + "\n"
+	# 	history.text += "\n"
+
+	
 func _on_request_completed(result, responseCode, headers, body):
 	find_child("SendButton").disabled = false
 	var json = JSON.new()
@@ -174,4 +181,6 @@ func _on_request_completed(result, responseCode, headers, body):
 		var newStr = response.candidates[0].content.parts[0].text
 		find_child("ResponseEdit").text = newStr
 		conversations.append({"user":"%s"%last_user_prompt,"model":"%s"%newStr})
+		history = {"user":"%s"%last_user_prompt,"model":"%s"%newStr}
+		_add_to_history()
 	

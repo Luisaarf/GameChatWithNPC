@@ -138,7 +138,7 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 10
 
 [node name="HistoryContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
-layout_direction = 3
+layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -146,7 +146,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "History"
 
-[node name="TextEdit" type="TextEdit" parent="HBoxContainer/MarginContainer/HistoryContainer"]
+[node name="HistText" type="TextEdit" parent="HBoxContainer/MarginContainer/HistoryContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
