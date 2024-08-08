@@ -149,5 +149,6 @@ text = "History"
 [node name="HistText" type="TextEdit" parent="HBoxContainer/MarginContainer/HistoryContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+wrap_mode = 1
 
 [connection signal="pressed" from="HBoxContainer/MarginContainer2/InputContainer/HBoxContainer5/SendButton" to="." method="_on_send_button_pressed"]
