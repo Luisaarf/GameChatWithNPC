@@ -6,8 +6,11 @@ var http_request
 var conversations = []
 var history = []
 var historyBox : TextEdit
+var backToGameBt : Button
+var sendMessageBt: Button
 var last_user_prompt
 var model = "v1beta/models/gemini-1.5-pro-latest"
+
 func _ready():
 	var settings = JSON.parse_string(FileAccess.get_file_as_string("res://settings.json"))
 	if not settings:
@@ -17,11 +20,11 @@ func _ready():
 	add_child(http_request)
 	http_request.connect("request_completed", _on_request_completed)
 	historyBox = find_child("HistText")
+	backToGameBt = find_child("BackGameBt")
+	sendMessageBt = find_child("SendButton")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
+func _back_to_game():
+	get_tree().change_scene_to_file("res://main.tscn")
 #func _get_option_selected_text(key):
 	#var option = find_child(key+"OptionButton")
 	#var text = option.get_item_text(option.get_selected_id())
@@ -51,12 +54,11 @@ func _process(delta):
 	#return settings
 	
 func _on_send_button_pressed():
-	find_child("SendButton").disabled = true
+	sendMessageBt.disabled = true
 	var input = find_child("InputEdit").text
 	_request_chat(input)
 
 func _request_chat(prompt):
-	# var url = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=%s"%api_key
 	var url = "https://generativelanguage.googleapis.com/%s:generateContent?key=%s"%[model,api_key]
 	
 	var contents_value = []
@@ -75,8 +77,22 @@ func _request_chat(prompt):
 			"parts":[{"text":prompt}]
 		})
 	var body = JSON.stringify({
-		"contents":contents_value
-		,# basically useless,just they say 'I cant talk about that.'
+		"contents":contents_value,
+		  "systemInstruction": {
+			"role": "user",
+			"parts": [
+			{
+				"text": "Atue como o personagem Eryndor que vive em Nyxara. Qualquer resposta que não caiba no contexto, Eryndor deve responder que não sabe, que não entende a pergunta e deve ficar bravo com o jogador\nNyxara é um mundo ficcional noturno banhado por luzes de três luas. A flora e fauna são bioluminescentes e criam um ambiente místico e perigoso. A sociedade gira em torno de tentar controlar e compreender a magia luar, alguns tentam utilizá-la para propósitos sombrios e gananciosos.\nEryndor é um NPC, centauro de 90 anos e por ser muito sábio ele representa o bando. Assim como outros centauros ele é contra o abuso da magia lunar já que a manipulação dela pode causar desequilíbrios ambientais.\nPersonalidade: sábio, reservado, meticuloso e organizado. Ele é dedicado a preservação do conhecimento. Os centauros já foram traídos ao entregar informações a aqueles com má índole e por isso Eryndor se apresenta desconfiado e relutante.\nVícios de Linguagem: Eryndor tende a fazer pausas reflexivas enquanto fala, muitas vezes usando expressões como \"Ah, sim...\", \"Vejamos...\", e \"Hum...\". Ele também usa frequentemente interjeições como \"Entretanto\", \"Hmmm\", e \"Ora\" para dar ênfase aos seus pensamentos e mostrar seu estilo ponderado.\n\nJogador: \"Eryndor, precisamos da sua ajuda. A magia da terceira lua foi roubada. Você sabe como podemos encontrá-lo?\"\nEryndor: (Com um olhar desconfiado) \"Ah, sim... A terceira lua. A última vez que confiei em aventureiros, meu conhecimento foi... hum... usado para causar destruição. O Cristal Lunar é uma fonte de imenso poder e não pode cair em mãos erradas. Prove que suas intenções são puras e, ora, talvez eu considere ajudá-los.\"\nJogador: \"Entendemos sua desconfiança, Eryndor. Estamos dispostos a provar nossa lealdade. O que podemos fazer para ganhar sua confiança?\"\nEryndor: (Após uma pausa reflexiva) \"Hmmm... Há uma planta bioluminescente rara chamada Lágrima de Lúmen que floresce apenas sob a Lua Prateada. Tragam-me uma dessas flores intacta, e eu saberei que... vejamos... vocês têm a determinação e o respeito necessários para esta missão. Além disso... hum... devem ajudar a curar... ah sim, um santuário da Lua Prateada. Façam isso, e considerarei ajudá-los.\"\n"
+			}
+			]
+		},
+		"generationConfig": {
+			"temperature": 1,
+			"topK": 64,
+			"topP": 0.95,
+			"maxOutputTokens": 8192,
+			"responseMimeType": "text/plain"
+		},
 		"safety_settings":[
 			{
 			"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
@@ -113,12 +129,16 @@ func _set_label_text(key,text):
 	label.text = text
 	
 func _on_request_completed(result, responseCode, headers, body):
-	find_child("SendButton").disabled = false
+	sendMessageBt.disabled = false
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var response = json.get_data()
 	print("response")
 	print(response)
+	print("result")
+	print(result)
+	print(responseCode)
+	print(headers)
 	
 	if response == null:
 		print("response is null")
@@ -168,7 +188,7 @@ func _on_request_completed(result, responseCode, headers, body):
 		find_child("FinishedLabel").text = ""
 		find_child("FinishedLabel").visible = false
 		var newStr = response.candidates[0].content.parts[0].text
-		find_child("ResponseEdit").text = newStr
+		#find_child("ResponseEdit").text = newStr
 		conversations.append({"user":"%s"%last_user_prompt,"model":"%s"%newStr})
 		history = {"user":"%s"%last_user_prompt,"model":"%s"%newStr}
 		_add_to_history()
