@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfpwf6thusdxn"]
+[gd_scene load_steps=3 format=3 uid="uid://bfpwf6thusdxn"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_lwiex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eyjce"]
+size = Vector2(24, 710)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -10,6 +13,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lwiex")
+
+[node name="Background" type="Polygon2D" parent="."]
+color = Color(0.357512, 0.655274, 0.531672, 1)
+polygon = PackedVector2Array(-23, -19, -23, 694, 819, 694, 816, -23)
+
+[node name="Area2D" type="Area2D" parent="Background"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Background/Area2D"]
+position = Vector2(-12, 336)
+shape = SubResource("RectangleShape2D_eyjce")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -79,5 +92,7 @@ layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Chat"
+
+[node name="Player" type="Sprite2D" parent="."]
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/KeyContainer/HBoxContainer/SetAPIButton" to="." method="_on_set_api_button_pressed"]
