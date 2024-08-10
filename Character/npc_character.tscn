@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmgmdkaqhrmqm"]
+
+[ext_resource type="Texture2D" uid="uid://ytmt2diqlbe1" path="res://Character/godoticon.png" id="1_catd6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jegp6"]
+blend_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_clu0v"]
+size = Vector2(38, 38)
+
+[node name="npc_character" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_jegp6")
+position = Vector2(0, 3.8147e-06)
+scale = Vector2(0.0732422, 0.0732422)
+texture = ExtResource("1_catd6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_clu0v")

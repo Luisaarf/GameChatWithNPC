@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://iubtg1kocsea"]
+
+[ext_resource type="Texture2D" uid="uid://ytmt2diqlbe1" path="res://Character/godoticon.png" id="1_kfo3u"]
+[ext_resource type="Script" path="res://Character/base_character.gd" id="1_wagvx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_syhqa"]
+size = Vector2(53, 56)
+
+[node name="baseCharacter" type="CharacterBody2D"]
+position = Vector2(170, 237)
+script = ExtResource("1_wagvx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.50003, -0.875046)
+scale = Vector2(0.103516, 0.109863)
+texture = ExtResource("1_kfo3u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.50004, -0.750137)
+shape = SubResource("RectangleShape2D_syhqa")

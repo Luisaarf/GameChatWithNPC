@@ -1,15 +1,18 @@
 extends Control
 
 var settings_path = "res://settings.json"
+var chat_button : Button
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_update_ui()
-	var button : Button = find_child("EnterChatButton")
+	chat_button = find_child("EnterChatButton")
+	print('initialized')
 	#var names = ["chat_text1_5"]
 	#for node_name in names:
 		#var button = Button.new()
 		#button.text = node_name
-	button.connect("pressed", Callable(self, "_on_button_pressed").bind(button))
+	chat_button.connect("pressed", Callable(self, "_on_button_pressed").bind(chat_button))
+	chat_button.visible = false
 		#container.add_child(button)
 		
 
@@ -38,3 +41,14 @@ func _on_set_api_button_pressed():
 	file.store_string(json_text)
 	file.close()
 	_update_ui()
+
+func _on_chat_area_body_entered(body):
+	if body.name == 'baseCharacter':
+		chat_button.visible = true
+		print('collision ', body) # Replace with function body.
+
+
+func _on_chat_area_body_exited(body):
+	if body.name == 'baseCharacter':
+		chat_button.visible = false
+		print('collision ', body) # Replace with function body.
