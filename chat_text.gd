@@ -88,7 +88,7 @@ func _request_chat(prompt):
 		},
 		"generationConfig": {
 			"temperature": 1,
-			"topK": 64,
+			"topK": 30,
 			"topP": 0.95,
 			"maxOutputTokens": 8192,
 			"responseMimeType": "text/plain"
