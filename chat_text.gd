@@ -87,10 +87,10 @@ func _request_chat(prompt):
 			]
 		},
 		"generationConfig": {
-			"temperature": 1,
-			"topK": 30,
+			"temperature": 0.5,
+			"topK": 35,
 			"topP": 0.95,
-			"maxOutputTokens": 8192,
+			"maxOutputTokens": 50,
 			"responseMimeType": "text/plain"
 		},
 		"safety_settings":[
@@ -99,17 +99,9 @@ func _request_chat(prompt):
 			"threshold": "BLOCK_ONLY_HIGH",
 			},
 			{
-			"category": "HARM_CATEGORY_HATE_SPEECH",
-			"threshold": "BLOCK_ONLY_HIGH",
-			},
-			{
 			"category": "HARM_CATEGORY_HARASSMENT",
 			"threshold": "BLOCK_ONLY_HIGH",
-			},
-			{
-			"category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-			"threshold": "BLOCK_ONLY_HIGH",
-			},
+			}
 			]
 	})
 	last_user_prompt = prompt
