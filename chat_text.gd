@@ -6,60 +6,57 @@ var http_request
 var conversations = []
 var history = []
 var historyBox : TextEdit
+var inputBox : TextEdit
 var backToGameBt : Button
 var sendMessageBt: Button
 var last_user_prompt
 var model = "v1beta/models/gemini-1.5-pro-latest"
+var file_path = "res://settings.json"
+var settings = {}
 
 func _ready():
-	var settings = JSON.parse_string(FileAccess.get_file_as_string("res://settings.json"))
-	if not settings:
-		get_tree().change_scene("res://main.tsn")
+	historyBox = find_child("HistText")
+	backToGameBt = find_child("BackGameBt")
+	sendMessageBt = find_child("SendButton")
+	inputBox = find_child("InputEdit")
+	read_settings_file()
+		
+func read_settings_file(): 
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if file:
+		settings = JSON.parse_string(file.get_as_text())
+		file.close()
+		if settings:
+			make_http_request()
+		else:
+			print("Erro ao parsear o JSON:", settings)
+			settings = {}
+	else:
+		print("Arquivo não encontrado ou erro ao abrir:", file_path)
+		
+func make_http_request():
+	if not settings.has("api_key") or settings.api_key == "":
+		print("Erro: API key não encontrada em 'settings'")
+		return
 	api_key = settings.api_key
 	http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.connect("request_completed", _on_request_completed)
-	historyBox = find_child("HistText")
-	backToGameBt = find_child("BackGameBt")
-	sendMessageBt = find_child("SendButton")
 
 func _back_to_game():
-	get_tree().change_scene_to_file("res://main.tscn")
-#func _get_option_selected_text(key):
-	#var option = find_child(key+"OptionButton")
-	#var text = option.get_item_text(option.get_selected_id())
-	#return  text
-#
-#func read_settings_file():
-	#var file_path = "res://settings.json"
-	#var file = FileAccess.open(file_path, FileAccess.READ)
-#
-	#if file == null:
-		#print("Erro ao abrir o arquivo: ", file_path)
-		#get_tree().change_scene_to_file("res://main.tscn")
-		#
-	#var content = ""
-	#while not file.eof_reached():
-		#content += file.get_line()
-	#file.close()
-	#
-	#var settings = {}
-	#content = JSON.parse_string(content)
-	#print(content)
-	#if !content:
-		#print("Erro ao analisar JSON")
-		#get_tree().change_scene_to_file("res://main.tscn")
-	#
-	#settings = content
-	#return settings
+	visible = false
 	
 func _on_send_button_pressed():
 	sendMessageBt.disabled = true
-	var input = find_child("InputEdit").text
+	var input = inputBox.text
+	inputBox.text = ""
 	_request_chat(input)
 
+func deliver_crystal():
+	print("Deliver Crystal ---------------//////////////////////")
+
 func _request_chat(prompt):
-	var url = "https://generativelanguage.googleapis.com/%s:generateContent?key=%s"%[model,api_key]
+	var url = "https://generativelanguage.googleapis.com/%s:generateContent?key=%s"%[model,api_key,]
 	
 	var contents_value = []
 	for conversation in conversations:
@@ -82,7 +79,7 @@ func _request_chat(prompt):
 			"role": "user",
 			"parts": [
 			{
-				"text": "Atue como o personagem Eryndor que vive em Nyxara. Qualquer resposta que não caiba no contexto, Eryndor deve responder que não sabe, que não entende a pergunta e deve ficar bravo com o jogador\nNyxara é um mundo ficcional noturno banhado por luzes de três luas. A flora e fauna são bioluminescentes e criam um ambiente místico e perigoso. A sociedade gira em torno de tentar controlar e compreender a magia luar, alguns tentam utilizá-la para propósitos sombrios e gananciosos.\nEryndor é um NPC, centauro de 90 anos e por ser muito sábio ele representa o bando. Assim como outros centauros ele é contra o abuso da magia lunar já que a manipulação dela pode causar desequilíbrios ambientais.\nPersonalidade: sábio, reservado, meticuloso e organizado. Ele é dedicado a preservação do conhecimento. Os centauros já foram manipulados por aqueles com má índole e por isso Eryndor se apresenta desconfiado e relutante.\nVícios de Linguagem: Eryndor tende a fazer pausas reflexivas enquanto fala, muitas vezes usando expressões como \"Ah, sim...\", \"Vejamos...\", e \"Hum...\". Ele também usa frequentemente interjeições como \"Entretanto\", \"Hmmm\", e \"Ora\" para dar ênfase aos seus pensamentos e mostrar seu estilo ponderado. As respostas não contém narrações. \n\nJogador: \"Eryndor, preciso da sua ajuda. A magia da terceira lua foi roubada. Preciso do cristal vermelho para salvá-la.\"\nEryndor: \"Ah, sim... A terceira lua. A última vez que confiei em aventureiros, fui traído. O Cristal Lunar é uma fonte de imenso poder e não pode cair em mãos erradas. Prove que suas intenções são puras e, ora, talvez eu considere ajudá-los.\"\nJogador: \"Entendo sua desconfiança, Eryndor, mas estou disposto a provar minha lealdade. O que posso fazer para ganhar sua confiança?\"\nEryndor:\"Ora... Há uma planta bioluminescente rara chamada Lágrima de Lúmen que floresce apenas sob a Lua Prateada. Traga-me uma dessas flores intacta, e eu saberei que... vejamos... vocês têm a determinação e o respeito necessários para esta missão.\"\n"
+				"text": "Atue como o personagem Eryndor que vive em Nyxara. Qualquer resposta que não caiba no contexto, Eryndor deve responder que não sabe, que não entende a pergunta e deve ficar bravo com o jogador\nNyxara é um mundo ficcional noturno banhado por luzes de três luas.\nEryndor é um NPC, centauro de 90 anos e por ser muito sábio ele representa o bando. \nPersonalidade: sábio, reservado, meticuloso e organizado. O jogador provavelmente virá pedir o cristal vermelho e Eryndor deve entregá-la não de imediato mas após o jogador insistir um pouco. Quanto mais bravo menores são as chances de ele dar o cristal.\nVícios de Linguagem: Eryndor tende a fazer pausas reflexivas enquanto fala, muitas vezes usando expressões como \"Ah, sim...\", \"Vejamos...\", e \"Hum...\". Ele também usa frequentemente interjeições como \"Entretanto\", \"Hmmm\", e \"Ora\" para dar ênfase aos seus pensamentos e mostrar seu estilo ponderado. As respostas não contém narrações. \n\nJogador: \"Eryndor, preciso da sua ajuda. A magia da terceira lua foi roubada. Preciso do cristal vermelho para salvá-la, você a tem?.\"\nEryndor: \"Ah, sim... possuo esse cristal.\"\nJogador: \"Entendo Eryndor, pode me dar o cristal por gentileza?\"\nEryndor: \"Mas será que devo confiar em você?\"\nJogador: \"Sim, quero usá-la para salvar Nyxara, você precisa confiar em mim\"\nEryndor: \"Hmm... espero que a use com cuidado\""
 			}
 			]
 		},
@@ -92,6 +89,19 @@ func _request_chat(prompt):
 			"topP": 0.95,
 			"maxOutputTokens": 3000,
 			"responseMimeType": "text/plain"
+		},
+		"tools": [
+			{
+				"function_declarations": [
+					{
+						"name": "deliver_crystal",
+						"description": "Deliver the red crystal to the player."
+					}
+				]
+			}
+		],
+		"tool_config" : {
+			"function_calling_config" : { "mode": "AUTO" }
 		},
 		"safety_settings":[
 			{
@@ -159,7 +169,7 @@ func _on_request_completed(result, responseCode, headers, body):
 	if response.has("error"):
 		find_child("FinishedLabel").text = "ERROR"
 		find_child("FinishedLabel").visible = true
-		find_child("ResponseEdit").text = str(response.error)
+		historyBox.text = str(response.error.message)
 		#maybe blocked
 		return
 	
@@ -167,7 +177,7 @@ func _on_request_completed(result, responseCode, headers, body):
 	if !response.has("candidates"):
 		find_child("FinishedLabel").text = "Blocked"
 		find_child("FinishedLabel").visible = true
-		find_child("ResponseEdit").text = ""
+		historyBox.text = ""
 		#maybe blocked
 		return
 		
@@ -175,15 +185,20 @@ func _on_request_completed(result, responseCode, headers, body):
 	if response.candidates[0].finishReason != "STOP":
 		find_child("FinishedLabel").text = "Safety"
 		find_child("FinishedLabel").visible = true
-		find_child("ResponseEdit").text = ""
+		historyBox.text = ""
 	else:
 		find_child("FinishedLabel").text = ""
 		find_child("FinishedLabel").visible = false
-		var newStr = response.candidates[0].content.parts[0].text
-		#find_child("ResponseEdit").text = newStr
-		conversations.append({"user":"%s"%last_user_prompt,"model":"%s"%newStr})
-		history = {"user":"%s"%last_user_prompt,"model":"%s"%newStr}
-		_add_to_history()
+		for part in response['candidates'][0]['content']['parts']:
+			if 'functionCall' in part:
+				var function = part['functionCall']['name']
+				call(function)
+				
+			if 'text' in part:
+				var newStr = part['text']
+				conversations.append({"user":"%s"%last_user_prompt,"model":"%s"%newStr})
+				history = {"user":"%s"%last_user_prompt,"model":"%s"%newStr}
+				_add_to_history() 
 	
 func _add_to_history():
 	historyBox.text += "User: " + history.user + "\n"
