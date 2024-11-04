@@ -18,21 +18,14 @@ script = ExtResource("1_84qyd")
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_direction = 2
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.035
-anchor_top = 0.041
-anchor_right = 1.035
-anchor_bottom = 1.046
-offset_left = -27.0
-offset_top = -28.88
-offset_right = -29.0
-offset_bottom = -28.28
-alignment = 1
+offset_right = 802.0
+offset_bottom = 683.0
 
 [node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 0
 size_flags_vertical = 0
+size_flags_stretch_ratio = 2.04
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
@@ -57,6 +50,7 @@ text = "Fechar chat"
 
 [node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/InputContainer"]
 layout_mode = 2
+theme = ExtResource("2_knw6u")
 text = "User"
 
 [node name="InputEdit" type="TextEdit" parent="HBoxContainer/MarginContainer2/InputContainer"]
@@ -64,6 +58,7 @@ custom_minimum_size = Vector2(50, 100)
 layout_direction = 2
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("2_knw6u")
 placeholder_text = "Digite para conversar com Eryndor..."
 wrap_mode = 1
 
@@ -144,15 +139,16 @@ theme_override_constants/margin_bottom = 10
 [node name="HistoryContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
 layout_direction = 2
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="HBoxContainer/MarginContainer/HistoryContainer"]
 layout_mode = 2
+theme = ExtResource("2_knw6u")
 text = "History"
 
 [node name="HistText" type="TextEdit" parent="HBoxContainer/MarginContainer/HistoryContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("2_knw6u")
 editable = false
 wrap_mode = 1
 
