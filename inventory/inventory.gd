@@ -5,8 +5,8 @@ class_name Inv
 @export var items: Array[InvItem]
 
 func _init():
-    items = []
+	items = []
 
 func add_item(item: InvItem) -> void:
-    items.append(item)
-    
+	items.append(item)
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://bfpwf6thusdxn"]
+[gd_scene load_steps=16 format=4 uid="uid://bfpwf6thusdxn"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_lwiex"]
 [ext_resource type="Texture2D" uid="uid://o2gt0yfw1jmf" path="res://assets/Ground/Tilemap_Flat.png" id="2_30yad"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dkcc5t4k3eygq" path="res://assets/ForestDetails/Tree.png" id="3_in6kb"]
 [ext_resource type="Theme" uid="uid://g4in27ws5363" path="res://themes/ui.tres" id="4_o48sy"]
 [ext_resource type="PackedScene" uid="uid://dc34063stpmw" path="res://chat_text.tscn" id="5_ynwla"]
+[ext_resource type="Theme" uid="uid://b1xs757kf8ocw" path="res://themes/inventory.tres" id="7_8e8mw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a8arp"]
 texture = ExtResource("2_30yad")
@@ -1088,7 +1089,48 @@ position = Vector2(615, 112)
 position = Vector2(615, 112)
 shape = SubResource("CircleShape2D_satkp")
 
+[node name="Control" type="Control" parent="."]
+z_index = 1
+anchors_preset = 0
+offset_right = 406.0
+offset_bottom = 105.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("4_o48sy")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 293.0
+offset_bottom = 67.0
+theme_override_constants/separation = 62
+alignment = 1
+
+[node name="Slot1" type="Button" parent="Control/MarginContainer/Panel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("7_8e8mw")
+
+[node name="Slot2" type="Button" parent="Control/MarginContainer/Panel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("7_8e8mw")
+
+[node name="Slot3" type="Button" parent="Control/MarginContainer/Panel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("7_8e8mw")
+
 [node name="Chat" parent="." instance=ExtResource("5_ynwla")]
+visible = false
 visibility_layer = 2
 z_index = 1
 layout_mode = 1
