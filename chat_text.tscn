@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dc34063stpmw"]
+[gd_scene load_steps=4 format=3 uid="uid://dc34063stpmw"]
 
 [ext_resource type="Script" path="res://chat_text.gd" id="1_84qyd"]
+[ext_resource type="Theme" uid="uid://g4in27ws5363" path="res://themes/ui.tres" id="2_knw6u"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6qyb2"]
 font_color = Color(1, 0, 0, 1)
@@ -23,14 +24,15 @@ anchor_top = 0.041
 anchor_right = 1.035
 anchor_bottom = 1.046
 offset_left = -27.0
-offset_top = -27.88
-offset_right = -27.0001
+offset_top = -28.88
+offset_right = -29.0
 offset_bottom = -28.28
 alignment = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
+size_flags_vertical = 0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
@@ -38,7 +40,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="InputContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer2"]
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 4
 size_flags_vertical = 0
 
 [node name="ButtonMargin" type="MarginContainer" parent="HBoxContainer/MarginContainer2/InputContainer"]
@@ -50,6 +52,7 @@ theme_override_constants/margin_bottom = 50
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+theme = ExtResource("2_knw6u")
 text = "Fechar chat"
 
 [node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/InputContainer"]
@@ -116,6 +119,7 @@ alignment = 1
 [node name="SendButton" type="Button" parent="HBoxContainer/MarginContainer2/InputContainer/HBoxContainer5"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
+theme = ExtResource("2_knw6u")
 text = "Send"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/InputContainer"]
