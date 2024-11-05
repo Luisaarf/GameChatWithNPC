@@ -1,20 +1,127 @@
-[gd_scene load_steps=4 format=3 uid="uid://iubtg1kocsea"]
+[gd_scene load_steps=18 format=3 uid="uid://iubtg1kocsea"]
 
-[ext_resource type="Texture2D" uid="uid://ytmt2diqlbe1" path="res://Character/godoticon.png" id="1_kfo3u"]
 [ext_resource type="Script" path="res://Character/base_character.gd" id="1_wagvx"]
+[ext_resource type="Texture2D" uid="uid://dlwxaddrxph8p" path="res://assets/Chars/Warrior_Blue.png" id="2_gmrnb"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_syhqa"]
-size = Vector2(53, 56)
+[sub_resource type="AtlasTexture" id="AtlasTexture_641eh"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(0, 0, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kyiqv"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(192, 0, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojqcq"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(384, 0, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3jh0"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(576, 0, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3vxx"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(768, 0, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_togrv"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(960, 0, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijbo2"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(0, 190, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmsq1"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(192, 190, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bb76r"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(384, 190, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1x0fl"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(576, 190, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_routy"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(768, 190, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8avn"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(960, 190, 192, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ljkq"]
+atlas = ExtResource("2_gmrnb")
+region = Rect2(960, 190, 192, 190)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qktv6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_641eh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kyiqv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojqcq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3jh0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3vxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_togrv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijbo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmsq1")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_bb76r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1x0fl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_routy")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_q8avn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ljkq")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y8ui4"]
+radius = 29.84
 
 [node name="baseCharacter" type="CharacterBody2D"]
 position = Vector2(170, 237)
+motion_mode = 1
 script = ExtResource("1_wagvx")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1.50003, -0.875046)
-scale = Vector2(0.103516, 0.109863)
-texture = ExtResource("1_kfo3u")
+[node name="AnimationsChar" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+position = Vector2(4, 0)
+sprite_frames = SubResource("SpriteFrames_qktv6")
+animation = &"run"
+frame_progress = 0.881423
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.50004, -0.750137)
-shape = SubResource("RectangleShape2D_syhqa")
+position = Vector2(1.50005, 2.5)
+shape = SubResource("CircleShape2D_y8ui4")

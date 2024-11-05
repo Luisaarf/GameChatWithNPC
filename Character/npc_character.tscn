@@ -1,20 +1,77 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmgmdkaqhrmqm"]
+[gd_scene load_steps=12 format=3 uid="uid://cmgmdkaqhrmqm"]
 
-[ext_resource type="Texture2D" uid="uid://ytmt2diqlbe1" path="res://Character/godoticon.png" id="1_catd6"]
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jegp6"]
-blend_mode = 1
+[ext_resource type="Texture2D" uid="uid://c4sogj8yof5fw" path="res://assets/Chars/Torch_Purple.png" id="1_isslh"]
+[ext_resource type="Script" path="res://Character/npc_character.gd" id="1_uauxu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_clu0v"]
 size = Vector2(38, 38)
 
-[node name="npc_character" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_k32tl"]
+atlas = ExtResource("1_isslh")
+region = Rect2(0, 0, 192, 192)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("CanvasItemMaterial_jegp6")
-position = Vector2(0, 3.8147e-06)
-scale = Vector2(0.0732422, 0.0732422)
-texture = ExtResource("1_catd6")
+[sub_resource type="AtlasTexture" id="AtlasTexture_h18nt"]
+atlas = ExtResource("1_isslh")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4lsb"]
+atlas = ExtResource("1_isslh")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvqpg"]
+atlas = ExtResource("1_isslh")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d24tp"]
+atlas = ExtResource("1_isslh")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pymi"]
+atlas = ExtResource("1_isslh")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kn34s"]
+atlas = ExtResource("1_isslh")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ha1cl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k32tl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h18nt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4lsb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvqpg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d24tp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pymi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kn34s")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[node name="npc_character" type="CharacterBody2D"]
+script = ExtResource("1_uauxu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_clu0v")
+
+[node name="AnimationNPC" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_ha1cl")
+animation = &"idle"
+frame_progress = 0.970704
+flip_h = true

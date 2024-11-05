@@ -24,3 +24,7 @@ window/size/resizable=false
 [dotnet]
 
 project/assembly_name="Godot-simple-gemini-api"
+
+[rendering]
+
+2d/snap/snap_2d_transforms_to_pixel=true
