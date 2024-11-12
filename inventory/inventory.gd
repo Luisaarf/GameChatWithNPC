@@ -1,4 +1,4 @@
-extends Resource
+extends Control
 
 class_name Inv
 
@@ -9,4 +9,4 @@ func _init():
 
 func add_item(item: InvItem) -> void:
 	items.append(item)
-	
+	print(items)

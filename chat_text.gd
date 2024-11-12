@@ -13,6 +13,7 @@ var last_user_prompt
 var model = "v1beta/models/gemini-1.5-pro-latest"
 var file_path = "res://settings.json"
 var settings = {}
+var red_crystal_texture = preload("res://assets/ForestDetails/06.png")
 
 func _ready():
 	historyBox = find_child("HistText")
@@ -53,7 +54,10 @@ func _on_send_button_pressed():
 	_request_chat(input)
 
 func deliver_crystal():
+	var red_crystal_item = load("res://inventory/inventory_item.tscn").instantiate()
+	red_crystal_item._init("Red Crystal", red_crystal_texture)
 	print("Deliver Crystal ---------------//////////////////////")
+	Inventory.add_item(red_crystal_item)
 
 func _request_chat(prompt):
 	var url = "https://generativelanguage.googleapis.com/%s:generateContent?key=%s"%[model,api_key,]
