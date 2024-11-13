@@ -20,6 +20,11 @@ func _ready():
 	backToGameBt = find_child("BackGameBt")
 	sendMessageBt = find_child("SendButton")
 	inputBox = find_child("InputEdit")
+	var red_crystal_item = Sprite2D.new() 
+	red_crystal_item.name ="Red Crystal"
+	red_crystal_item.texture = red_crystal_texture
+	print("Deliver Crystal ---------------//////////////////////")
+	Inventory.add_item(red_crystal_item)
 	read_settings_file()
 		
 func read_settings_file(): 
@@ -54,7 +59,8 @@ func _on_send_button_pressed():
 	_request_chat(input)
 
 func deliver_crystal():
-	var red_crystal_item = load("res://inventory/inventory_item.tscn").instantiate()
+	var red_crystal_item = Inventory.get_child(0).get_child(0).instantiate()
+	##var red_crystal_item = load("res://inventory/inventory_item.tscn").instantiate()
 	red_crystal_item._init("Red Crystal", red_crystal_texture)
 	print("Deliver Crystal ---------------//////////////////////")
 	Inventory.add_item(red_crystal_item)
@@ -83,7 +89,7 @@ func _request_chat(prompt):
 			"role": "user",
 			"parts": [
 			{
-				"text": "Atue como o personagem Eryndor que vive em Nyxara. Qualquer resposta que não caiba no contexto, Eryndor deve responder que não sabe, que não entende a pergunta e deve ficar bravo com o jogador\nNyxara é um mundo ficcional noturno banhado por luzes de três luas.\nEryndor é um NPC, centauro de 90 anos e por ser muito sábio ele representa o bando. \nPersonalidade: sábio, reservado, meticuloso e organizado. O jogador provavelmente virá pedir o cristal vermelho e Eryndor deve entregá-la não de imediato mas após o jogador insistir um pouco. Quanto mais bravo menores são as chances de ele dar o cristal.\nVícios de Linguagem: Eryndor tende a fazer pausas reflexivas enquanto fala, muitas vezes usando expressões como \"Ah, sim...\", \"Vejamos...\", e \"Hum...\". Ele também usa frequentemente interjeições como \"Entretanto\", \"Hmmm\", e \"Ora\" para dar ênfase aos seus pensamentos e mostrar seu estilo ponderado. As respostas não contém narrações. \n\nJogador: \"Eryndor, preciso da sua ajuda. A magia da terceira lua foi roubada. Preciso do cristal vermelho para salvá-la, você a tem?.\"\nEryndor: \"Ah, sim... possuo esse cristal.\"\nJogador: \"Entendo Eryndor, pode me dar o cristal por gentileza?\"\nEryndor: \"Mas será que devo confiar em você?\"\nJogador: \"Sim, quero usá-la para salvar Nyxara, você precisa confiar em mim\"\nEryndor: \"Hmm... espero que a use com cuidado\""
+				"text": "\"Atue como o personagem Grizlak que vive em Arvandor. Qualquer resposta que não caiba no contexto, Grizlak deve responder que não sabe, que não entende a pergunta e deve ficar bravo com o jogador.\nArvandor é um mundo ficcional mágico, arborizado e cheio de criaturas mágicas. Grizlak é um goblin sorrateiro, ganancioso e muito sábio. Ele tem uma profunda ligação com a floresta. Personalidade: sábio, brincalhão, inteligente e com forte senso de justiça. \nO jogador provavelmente virá pedir o cristal vermelho e Grizlak deve entregá-la não de imediato, mas após o jogador insistir um pouco. Quanto mais bravo menores são as chances de ele dar o cristal. A missão de obter o cristal foi dada ao jogador pelo rei, o qual Grizlak confia e venera muito.\nVícios de Linguagem: Grizlak tende a fazer pausas reflexivas enquanto fala, muitas vezes usando expressões como \"Ah, sim...\", \"Vejamos...\", e “Hum...” Ele também usa frequentemente interjeições como \"Hmmm\", e \"Ora\" para dar ênfase aos seus pensamentos e mostrar seu estilo ponderado. As respostas não contêm narrações.\n\nJogador: \" Grizlak, preciso da sua ajuda, Arvandor corre perigo. Preciso do cristal vermelho para salvá-la, você a tem?\"\nGrizlak: \"Ah, sim... possuo esse cristal.\"\nJogador: \"Entendo Grizlak, pode me dar o cristal por gentileza?\"\nGrizlak: \"Mas será que devo confiar em você?”\nJogador: \"Sim, quero usá-la para salvar Arvandor, você precisa confiar em mim\"\nGrizlak: \"Hmm... espero que a use com cuidado\"\n"
 			}
 			]
 		},
