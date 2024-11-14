@@ -13,18 +13,14 @@ var last_user_prompt
 var model = "v1beta/models/gemini-1.5-pro-latest"
 var file_path = "res://settings.json"
 var settings = {}
-var red_crystal_texture = preload("res://assets/ForestDetails/06.png")
+signal emit_inventory_change
 
 func _ready():
 	historyBox = find_child("HistText")
 	backToGameBt = find_child("BackGameBt")
 	sendMessageBt = find_child("SendButton")
 	inputBox = find_child("InputEdit")
-	var red_crystal_item = Sprite2D.new() 
-	red_crystal_item.name ="Red Crystal"
-	red_crystal_item.texture = red_crystal_texture
-	print("Deliver Crystal ---------------//////////////////////")
-	Inventory.add_item(red_crystal_item)
+	deliver_crystal()
 	read_settings_file()
 		
 func read_settings_file(): 
@@ -59,11 +55,7 @@ func _on_send_button_pressed():
 	_request_chat(input)
 
 func deliver_crystal():
-	var red_crystal_item = Inventory.get_child(0).get_child(0).instantiate()
-	##var red_crystal_item = load("res://inventory/inventory_item.tscn").instantiate()
-	red_crystal_item._init("Red Crystal", red_crystal_texture)
-	print("Deliver Crystal ---------------//////////////////////")
-	Inventory.add_item(red_crystal_item)
+	emit_signal("emit_inventory_change")
 
 func _request_chat(prompt):
 	var url = "https://generativelanguage.googleapis.com/%s:generateContent?key=%s"%[model,api_key,]

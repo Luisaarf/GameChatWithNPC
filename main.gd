@@ -3,7 +3,10 @@ extends Control
 var settings_path = "res://settings.json"
 var chat_button : Button
 var chat_scene : Control
-# Called when the node enters the scene tree for the first time.
+var red_crystal_texture = preload("res://assets/ForestDetails/06.png")
+var red_crystal_item: Sprite2D
+@export var inventory : Inventory
+
 func _ready():
 	_update_ui()
 	chat_button = find_child("EnterChatButton")
@@ -12,14 +15,10 @@ func _ready():
 	chat_button.visible = false
 	chat_scene = $Chat
 	chat_scene.visible = false
-		
-
+	inventory = $Inventory
 
 func _on_button_pressed(button):
 	chat_scene.visible = true
-	
-	#var scene_path = "res://chat_text.tscn"
-	#get_tree().change_scene_to_file(scene_path)
 
 
 func _update_ui():
@@ -51,3 +50,9 @@ func _on_chat_area_body_exited(body):
 	if body.name == 'baseCharacter':
 		chat_button.visible = false
 		print('collision ', body) # Replace with function body.
+
+func add_red_crystal_to_inventory():
+	red_crystal_item = Sprite2D.new() 
+	red_crystal_item.name ="Red Crystal"
+	red_crystal_item.texture = red_crystal_texture
+	inventory.add_item(red_crystal_item)

@@ -8,4 +8,3 @@ class_name InvItem
 func _init(nameItem: String = "", textureItem: Texture = null):
 	self.nameItem = nameItem
 	self.textureItem = textureItem
-	Inventory.add_item(self)

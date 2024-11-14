@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bfpwf6thusdxn"]
+[gd_scene load_steps=17 format=4 uid="uid://bfpwf6thusdxn"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_lwiex"]
 [ext_resource type="Texture2D" uid="uid://o2gt0yfw1jmf" path="res://assets/Ground/Tilemap_Flat.png" id="2_30yad"]
@@ -8,8 +8,7 @@
 [ext_resource type="Theme" uid="uid://g4in27ws5363" path="res://themes/ui.tres" id="4_o48sy"]
 [ext_resource type="PackedScene" uid="uid://dc34063stpmw" path="res://chat_text.tscn" id="5_ynwla"]
 [ext_resource type="Theme" uid="uid://b1xs757kf8ocw" path="res://themes/inventory.tres" id="7_8e8mw"]
-[ext_resource type="Script" path="res://inventory_slots.gd" id="7_cnnjq"]
-[ext_resource type="Script" path="res://inventory.gd" id="7_rheat"]
+[ext_resource type="Script" path="res://inventory/inventory.gd" id="7_ofq77"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a8arp"]
 texture = ExtResource("2_30yad")
@@ -968,7 +967,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lwiex")
-inventory = NodePath("Inventory/MarginContainer/Panel/InventorySlots")
+inventory = NodePath("Control/MarginContainer/Panel/InventorySlots")
 metadata/_edit_horizontal_guides_ = [484.0]
 
 [node name="TileLayer" type="Node" parent="."]
@@ -1089,17 +1088,15 @@ size_flags_horizontal = 4
 theme = ExtResource("4_o48sy")
 text = "Chat"
 
-[node name="Inventory" type="Control" parent="." node_paths=PackedStringArray("inventorySlots")]
+[node name="Control" type="Control" parent="."]
 z_index = 1
 anchors_preset = 0
 offset_left = 31.0
 offset_top = 17.0
 offset_right = 330.0
 offset_bottom = 119.0
-script = ExtResource("7_rheat")
-inventorySlots = NodePath("MarginContainer/Panel/InventorySlots")
 
-[node name="MarginContainer" type="MarginContainer" parent="Inventory"]
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -1108,11 +1105,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="Inventory/MarginContainer"]
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("4_o48sy")
 
-[node name="InventorySlots" type="HBoxContainer" parent="Inventory/MarginContainer/Panel" node_paths=PackedStringArray("slotOne", "slotTwo", "slotThree")]
+[node name="InventorySlots" type="HBoxContainer" parent="Control/MarginContainer/Panel" node_paths=PackedStringArray("itemone", "itemtwo", "itemthree")]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 11.0
@@ -1120,48 +1117,50 @@ offset_right = 212.0
 offset_bottom = 69.0
 theme_override_constants/separation = 17
 alignment = 1
-script = ExtResource("7_cnnjq")
-slotOne = NodePath("Slot1")
-slotTwo = NodePath("Slot2")
-slotThree = NodePath("Slot3")
+script = ExtResource("7_ofq77")
+itemone = NodePath("Slot1")
+itemtwo = NodePath("Slot2")
+itemthree = NodePath("Slot3")
 
-[node name="Slot1" type="Button" parent="Inventory/MarginContainer/Panel/InventorySlots"]
+[node name="Slot1" type="Button" parent="Control/MarginContainer/Panel/InventorySlots"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("7_8e8mw")
 disabled = true
 toggle_mode = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Inventory/MarginContainer/Panel/InventorySlots/Slot1"]
+[node name="Sprite2D" type="Sprite2D" parent="Control/MarginContainer/Panel/InventorySlots/Slot1"]
 position = Vector2(26, 29)
 scale = Vector2(0.839, 0.9)
 
-[node name="Slot2" type="Button" parent="Inventory/MarginContainer/Panel/InventorySlots"]
+[node name="Slot2" type="Button" parent="Control/MarginContainer/Panel/InventorySlots"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("7_8e8mw")
 disabled = true
 toggle_mode = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Inventory/MarginContainer/Panel/InventorySlots/Slot2"]
+[node name="Sprite2D" type="Sprite2D" parent="Control/MarginContainer/Panel/InventorySlots/Slot2"]
 position = Vector2(26, 29)
 
-[node name="Slot3" type="Button" parent="Inventory/MarginContainer/Panel/InventorySlots"]
+[node name="Slot3" type="Button" parent="Control/MarginContainer/Panel/InventorySlots"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("7_8e8mw")
 disabled = true
 toggle_mode = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Inventory/MarginContainer/Panel/InventorySlots/Slot3"]
+[node name="Sprite2D" type="Sprite2D" parent="Control/MarginContainer/Panel/InventorySlots/Slot3"]
 position = Vector2(26, 29)
 
 [node name="Chat" parent="." instance=ExtResource("5_ynwla")]
-top_level = true
+visible = false
+visibility_layer = 2
+z_index = 1
 layout_mode = 1
+metadata/nodepath = NodePath("../Control/MarginContainer/Panel/InventorySlots")
 
 [connection signal="area_entered" from="ChatArea" to="." method="_on_chat_area_area_entered"]
 [connection signal="body_entered" from="ChatArea" to="." method="_on_chat_area_body_entered"]
 [connection signal="body_exited" from="ChatArea" to="." method="_on_chat_area_body_exited"]
 [connection signal="pressed" from="MarginContainer2/HBoxContainer/VBoxContainer/KeyContainer/HBoxContainer/SetAPIButton" to="." method="_on_set_api_button_pressed"]
-[connection signal="emit_inventory_change" from="Chat" to="." method="add_red_crystal_to_inventory"]
