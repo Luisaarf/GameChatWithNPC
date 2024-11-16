@@ -9,18 +9,19 @@ var historyBox : TextEdit
 var inputBox : TextEdit
 var backToGameBt : Button
 var sendMessageBt: Button
+var delivered: bool = false
 var last_user_prompt
 var model = "v1beta/models/gemini-1.5-pro-latest"
 var file_path = "res://settings.json"
 var settings = {}
 signal emit_inventory_change
 
+
 func _ready():
 	historyBox = find_child("HistText")
 	backToGameBt = find_child("BackGameBt")
 	sendMessageBt = find_child("SendButton")
 	inputBox = find_child("InputEdit")
-	deliver_crystal()
 	read_settings_file()
 		
 func read_settings_file(): 
@@ -55,7 +56,14 @@ func _on_send_button_pressed():
 	_request_chat(input)
 
 func deliver_crystal():
-	emit_signal("emit_inventory_change")
+	if !delivered:
+		emit_signal("emit_inventory_change")
+		delivered = true
+	else: 
+		conversations.append({"user":"%s"%last_user_prompt,"model":"Hm..."})
+		history = {"user":"%s"%last_user_prompt,"model":"Hm..."}
+		_add_to_history() 
+		
 
 func _request_chat(prompt):
 	var url = "https://generativelanguage.googleapis.com/%s:generateContent?key=%s"%[model,api_key,]
@@ -97,7 +105,7 @@ func _request_chat(prompt):
 				"function_declarations": [
 					{
 						"name": "deliver_crystal",
-						"description": "Deliver the red crystal to the player."
+						"description": "Deliver the red crystal to the player, can be called just once."
 					}
 				]
 			}
@@ -203,6 +211,6 @@ func _on_request_completed(result, responseCode, headers, body):
 				_add_to_history() 
 	
 func _add_to_history():
-	historyBox.text += "User: " + history.user + "\n"
-	historyBox.text += "Model: " +history.model + "\n"
+	historyBox.text += "Aventureiro: " + history.user + "\n"
+	historyBox.text += "Grizlak: " +history.model + "\n"
 	historyBox.text += "\n"

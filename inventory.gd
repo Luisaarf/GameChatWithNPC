@@ -11,4 +11,3 @@ func add_item(item: Sprite2D) -> void:
 	sprite.texture = item.texture
 	sprite.name = item.name
 	free_slot.disabled = false
-	print(item)

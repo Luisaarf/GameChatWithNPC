@@ -1158,6 +1158,7 @@ position = Vector2(26, 29)
 
 [node name="Chat" parent="." instance=ExtResource("5_ynwla")]
 top_level = true
+z_index = 2
 layout_mode = 1
 
 [connection signal="area_entered" from="ChatArea" to="." method="_on_chat_area_area_entered"]

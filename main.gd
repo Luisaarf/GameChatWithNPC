@@ -52,6 +52,7 @@ func _on_chat_area_body_exited(body):
 		print('collision ', body) # Replace with function body.
 
 func add_red_crystal_to_inventory():
+	inventory = $Inventory
 	red_crystal_item = Sprite2D.new() 
 	red_crystal_item.name ="Red Crystal"
 	red_crystal_item.texture = red_crystal_texture

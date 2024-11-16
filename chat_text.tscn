@@ -15,6 +15,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_84qyd")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 799.0
+offset_bottom = 699.0
+scale = Vector2(1.00576, 0.972272)
+color = Color(0, 0, 0, 0.638)
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_direction = 2
 layout_mode = 1

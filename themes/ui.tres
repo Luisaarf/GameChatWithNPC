@@ -2109,14 +2109,14 @@ expand_margin_bottom = 15.0
 content_margin_left = 24.0
 content_margin_top = 20.0
 content_margin_right = 24.0
-content_margin_bottom = 20.0
+content_margin_bottom = 25.0
 texture = ExtResource("5_wmh1w")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yb63"]
 content_margin_left = 24.0
 content_margin_top = 40.0
 content_margin_right = 24.0
-content_margin_bottom = 20.0
+content_margin_bottom = 40.0
 texture = ExtResource("5_wmh1w")
 
 [resource]
