@@ -22,6 +22,7 @@ func _ready():
 	backToGameBt = find_child("BackGameBt")
 	sendMessageBt = find_child("SendButton")
 	inputBox = find_child("InputEdit")
+	deliver_crystal()
 	read_settings_file()
 		
 func read_settings_file(): 
